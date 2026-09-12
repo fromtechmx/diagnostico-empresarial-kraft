@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+<title>Diagnóstico de Salud Empresarial — Corporación Kraft</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#F7F9FC;--card:#FFFFFF;--border:#E0E7EF;
+  --navy:#1F3A5F;--cyan:#00B4D8;--lime:#A8CC00;
+  --t1:#1F3A5F;--t2:#4A6070;--t3:#8A9EAF;
+  --c1:#00B4D8;--c2:#9A5AEE;--c3:#F0B429;--c4:#52C97F;--c5:#E85555;
+  --shadow:0 2px 16px rgba(31,58,95,.08);
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--t1);font-family:'Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh;}
+
+/* HEADER */
+.app-hdr{
+  background:var(--navy);
+  padding:14px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+}
+.hdr-brand{font-size:10px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.12em;}
+.hdr-brand em{color:var(--lime);font-style:normal;}
+.hdr-title{font-size:13px;font-weight:700;color:#fff;text-align:right;line-height:1.3;}
+.hdr-title span{display:block;font-size:10px;font-weight:400;color:rgba(255,255,255,.5);}
+
+/* HERO */
+.hero{background:var(--navy);padding:28px 20px 36px;text-align:center;}
+.hero-label{font-size:9px;font-weight:700;color:var(--lime);letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;}
+.hero-h{font-size:26px;font-weight:900;color:#fff;line-height:1.15;margin-bottom:8px;}
+.hero-h span{color:var(--lime);}
+.hero-sub{font-size:12px;color:rgba(255,255,255,.6);line-height:1.7;max-width:340px;margin:0 auto 20px;}
+.hero-meta{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.hero-chip{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:5px 12px;font-size:10px;color:rgba(255,255,255,.7);}
+
+/* EMPRESA */
+.empresa-sec{padding:20px 16px 0;}
+.empresa-card{background:var(--card);border-radius:12px;padding:18px;box-shadow:var(--shadow);margin-bottom:20px;}
+.ec-label{font-size:9px;font-weight:700;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;}
+.ec-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.ec-field{display:flex;flex-direction:column;gap:5px;}
+.ec-field.full{grid-column:1/-1;}
+.ec-field label{font-size:10px;font-weight:700;color:var(--t2);}
+.ec-field input{border:1.5px solid var(--border);border-radius:7px;padding:9px 11px;font-size:13px;color:var(--t1);background:#fff;outline:none;transition:border-color .2s;font-family:inherit;}
+.ec-field input:focus{border-color:var(--cyan);}
+
+/* BLOQUES */
+.blocks{padding:0 16px;}
+
+.bloque{background:var(--card);border-radius:14px;margin-bottom:14px;overflow:hidden;box-shadow:var(--shadow);}
+.blq-hdr{padding:16px 18px 0;border-top:4px solid;}
+.b1 .blq-hdr{border-color:var(--c1);}
+.b2 .blq-hdr{border-color:var(--c2);}
+.b3 .blq-hdr{border-color:var(--c3);}
+.b4 .blq-hdr{border-color:var(--c4);}
+.b5 .blq-hdr{border-color:var(--c5);}
+
+.blq-meta{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.blq-num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;}
+.b1 .blq-num{background:#EAF8FC;color:var(--c1);}
+.b2 .blq-num{background:#F3ECFD;color:var(--c2);}
+.b3 .blq-num{background:#FEF8EC;color:var(--c3);}
+.b4 .blq-num{background:#EDF8F3;color:var(--c4);}
+.b5 .blq-num{background:#FEF0F0;color:var(--c5);}
+
+.blq-info{}
+.blq-name{font-size:15px;font-weight:800;color:var(--t1);}
+.blq-desc{font-size:10px;color:var(--t3);margin-top:2px;}
+
+.blq-score-bar{
+  margin:0 18px 0;
+  background:#F0F4F8;border-radius:4px;height:4px;
+  overflow:hidden;
+}
+.blq-score-fill{height:100%;border-radius:4px;transition:width .4s ease;width:0%;}
+.b1 .blq-score-fill{background:var(--c1);}
+.b2 .blq-score-fill{background:var(--c2);}
+.b3 .blq-score-fill{background:var(--c3);}
+.b4 .blq-score-fill{background:var(--c4);}
+.b5 .blq-score-fill{background:var(--c5);}
+
+.blq-score-num{
+  text-align:right;
+  font-size:10px;font-weight:700;color:var(--t3);
+  padding:4px 18px 0;
+  transition:color .3s;
+}
+
+/* PREGUNTAS */
+.preguntas{padding:10px 18px 18px;}
+.pregunta{padding:12px 0;border-bottom:1px solid var(--border);}
+.pregunta:last-child{border-bottom:none;}
+
+.pq-text{font-size:12.5px;color:var(--t1);font-weight:500;line-height:1.5;margin-bottom:10px;}
+
+.slider-row{display:flex;align-items:center;gap:10px;}
+.slider-labels{display:flex;justify-content:space-between;font-size:9px;color:var(--t3);margin-top:4px;}
+
+input[type=range]{
+  -webkit-appearance:none;
+  flex:1;height:5px;border-radius:3px;
+  background:linear-gradient(to right,var(--blk-color) 0%,var(--blk-color) var(--pct),#E0E7EF var(--pct),#E0E7EF 100%);
+  outline:none;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:20px;height:20px;border-radius:50%;
+  background:#fff;border:2.5px solid var(--blk-color);
+  cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.15);
+}
+
+.pq-val{
+  min-width:38px;height:38px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;font-weight:900;
+  transition:background .3s,color .3s;
+  background:#F0F4F8;color:var(--t2);
+  font-family:inherit;
+}
+
+/* BTN */
+.cta-wrap{padding:20px 16px 40px;}
+.cta-btn{
+  width:100%;background:var(--navy);color:#fff;
+  font-size:15px;font-weight:700;
+  padding:16px;border-radius:12px;
+  border:none;cursor:pointer;
+  font-family:inherit;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:background .2s;
+}
+.cta-btn:hover{background:#2a4f80;}
+.cta-btn:disabled{opacity:.4;cursor:not-allowed;}
+
+/* ═══════════════════════════════════
+   PANTALLA DE RESULTADOS
+═══════════════════════════════════ */
+.results-screen{
+  display:none;
+  position:fixed;inset:0;
+  background:var(--navy);
+  overflow-y:auto;
+  z-index:200;
+}
+.results-screen.show{display:block;}
+
+.res-hdr{
+  background:rgba(0,0,0,.2);
+  padding:14px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.res-hdr-brand{font-size:10px;font-weight:700;color:rgba(255,255,255,.5);}
+.res-hdr-brand em{color:var(--lime);font-style:normal;}
+.btn-back{background:none;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);
+  font-size:11px;padding:5px 12px;border-radius:6px;cursor:pointer;font-family:inherit;}
+
+/* Empresa info */
+.res-empresa{padding:20px 20px 0;text-align:center;}
+.res-empresa-name{font-size:22px;font-weight:900;color:#fff;margin-bottom:3px;}
+.res-empresa-meta{font-size:11px;color:rgba(255,255,255,.5);}
+
+/* SALUD GLOBAL */
+.salud-global{
+  padding:30px 20px 24px;
+  text-align:center;
+}
+.sg-label{font-size:9px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;}
+
+.sg-ring-wrap{position:relative;width:160px;height:160px;margin:0 auto 14px;}
+.sg-ring{transform:rotate(-90deg);}
+.sg-ring circle{fill:none;stroke-width:10;}
+.sg-ring .track{stroke:rgba(255,255,255,.08);}
+.sg-ring .fill{stroke:var(--lime);stroke-linecap:round;transition:stroke-dashoffset .8s ease;stroke-dasharray:408;stroke-dashoffset:408;}
+.sg-num{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.sg-pct{font-size:42px;font-weight:900;color:#fff;line-height:1;}
+.sg-pct-sym{font-size:18px;font-weight:700;color:var(--lime);}
+.sg-tag{font-size:11px;color:rgba(255,255,255,.6);margin-top:3px;}
+
+.sg-estado{
+  display:inline-block;
+  border-radius:20px;padding:5px 16px;
+  font-size:12px;font-weight:700;
+  margin-top:4px;
+}
+
+/* BLOQUES RESULTADO */
+.res-bloques{padding:0 16px 16px;}
+.rb-label{font-size:9px;font-weight:700;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;}
+
+.rb{background:rgba(255,255,255,.06);border-radius:10px;padding:14px 16px;margin-bottom:8px;border-left:3px solid;}
+.rb.rb1{border-color:var(--c1);}
+.rb.rb2{border-color:var(--c2);}
+.rb.rb3{border-color:var(--c3);}
+.rb.rb4{border-color:var(--c4);}
+.rb.rb5{border-color:var(--c5);}
+
+.rb-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.rb-name{font-size:13px;font-weight:700;color:#fff;}
+.rb-pct{font-size:18px;font-weight:900;}
+.rb1 .rb-pct{color:var(--c1);}
+.rb2 .rb-pct{color:var(--c2);}
+.rb3 .rb-pct{color:var(--c3);}
+.rb4 .rb-pct{color:var(--c4);}
+.rb5 .rb-pct{color:var(--c5);}
+
+.rb-bar{background:rgba(255,255,255,.08);border-radius:3px;height:5px;overflow:hidden;}
+.rb-bar-fill{height:100%;border-radius:3px;transition:width .6s ease;}
+.rb1 .rb-bar-fill{background:var(--c1);}
+.rb2 .rb-bar-fill{background:var(--c2);}
+.rb3 .rb-bar-fill{background:var(--c3);}
+.rb4 .rb-bar-fill{background:var(--c4);}
+.rb5 .rb-bar-fill{background:var(--c5);}
+
+.rb-alerta{font-size:10.5px;color:rgba(255,255,255,.5);margin-top:6px;font-style:italic;}
+
+/* PRIORIDAD */
+.res-prioridad{padding:0 16px 16px;}
+.rp-card{background:rgba(168,204,0,.08);border:1px solid rgba(168,204,0,.2);border-radius:10px;padding:16px;}
+.rp-label{font-size:9px;font-weight:700;color:var(--lime);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
+.rp-bloque{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
+.rp-bloque:last-child{margin-bottom:0;}
+.rp-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+.rp-text{font-size:12px;color:rgba(255,255,255,.8);line-height:1.55;}
+.rp-text strong{color:#fff;}
+
+/* FIRMA */
+.res-firma{padding:20px 16px 40px;text-align:center;}
+.rf-from{font-size:11px;color:rgba(255,255,255,.4);margin-bottom:3px;}
+.rf-name{font-size:13px;font-weight:700;color:rgba(255,255,255,.7);}
+.rf-contact{font-size:10px;color:rgba(255,255,255,.3);margin-top:4px;line-height:1.8;}
+
+.btn-reiniciar{
+  margin-top:16px;
+  background:transparent;border:1px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.5);font-size:12px;font-family:inherit;
+  padding:10px 24px;border-radius:8px;cursor:pointer;
+  transition:border-color .2s,color .2s;
+}
+.btn-reiniciar:hover{border-color:rgba(255,255,255,.4);color:rgba(255,255,255,.8);}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="app-hdr">
+  <div class="hdr-brand">CORPORACIÓN <em>KRAFT</em></div>
+  <div class="hdr-title">Diagnóstico Empresarial<span>5 Bloques de Salud</span></div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">Herramienta de diagnóstico</div>
+  <div class="hero-h">¿Cómo está<br><span>tu negocio hoy?</span></div>
+  <div class="hero-sub">Califica cada área del 0 al 10. Al terminar recibes tu porcentaje de salud empresarial por bloque y una prioridad de trabajo.</div>
+  <div class="hero-meta">
+    <div class="hero-chip">25 preguntas</div>
+    <div class="hero-chip">5 bloques</div>
+    <div class="hero-chip">~8 minutos</div>
+  </div>
+</div>
+
+<!-- DATOS DE EMPRESA -->
+<div class="empresa-sec">
+  <div class="empresa-card">
+    <div class="ec-label">Datos de la empresa</div>
+    <div class="ec-grid">
+      <div class="ec-field full">
+        <label>Nombre de la empresa</label>
+        <input type="text" id="f-empresa" placeholder="Ej. Ferretería Los Altos">
+      </div>
+      <div class="ec-field">
+        <label>Nombre del dueño</label>
+        <input type="text" id="f-dueno" placeholder="Tu nombre">
+      </div>
+      <div class="ec-field">
+        <label>Número de empleados</label>
+        <input type="number" id="f-empleados" placeholder="Ej. 12">
+      </div>
+      <div class="ec-field">
+        <label>Giro / Industria</label>
+        <input type="text" id="f-giro" placeholder="Ej. Distribución, Retail...">
+      </div>
+      <div class="ec-field">
+        <label>Fecha</label>
+        <input type="date" id="f-fecha">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BLOQUES -->
+<div class="blocks" id="bloques-container"></div>
+
+<!-- CTA -->
+<div class="cta-wrap">
+  <button class="cta-btn" id="btn-calcular" onclick="calcular()">
+    Ver mi diagnóstico →
+  </button>
+</div>
+
+<!-- PANTALLA DE RESULTADOS -->
+<div class="results-screen" id="results-screen">
+  <div class="res-hdr">
+    <div class="res-hdr-brand">CORPORACIÓN <em>KRAFT</em></div>
+    <button class="btn-back" onclick="cerrarResultados()">← Regresar</button>
+  </div>
+
+  <div class="res-empresa">
+    <div class="res-empresa-name" id="r-empresa-name">Tu empresa</div>
+    <div class="res-empresa-meta" id="r-empresa-meta"></div>
+  </div>
+
+  <div class="salud-global">
+    <div class="sg-label">Salud empresarial general</div>
+    <div class="sg-ring-wrap">
+      <svg class="sg-ring" viewBox="0 0 140 140" width="160" height="160">
+        <circle class="track" cx="70" cy="70" r="65"/>
+        <circle class="fill" cx="70" cy="70" r="65" id="ring-fill"/>
+      </svg>
+      <div class="sg-num">
+        <div><span class="sg-pct" id="r-pct-num">0</span><span class="sg-pct-sym">%</span></div>
+        <div class="sg-tag" id="r-estado-tag"></div>
+      </div>
+    </div>
+    <div class="sg-estado" id="r-estado-badge"></div>
+  </div>
+
+  <div class="res-bloques">
+    <div class="rb-label">Detalle por bloque</div>
+    <div id="r-bloques"></div>
+  </div>
+
+  <div class="res-prioridad" id="r-prioridad-wrap">
+    <div class="rp-card">
+      <div class="rp-label">Áreas de trabajo prioritario</div>
+      <div id="r-prioridad"></div>
+    </div>
+  </div>
+
+  <div class="res-firma">
+    <div class="rf-from">Diagnóstico realizado con</div>
+    <div class="rf-name">Corporación Kraft × FROM TECH 4D</div>
+    <div class="rf-contact">jaimepasa@jaimepasa.com<br>fromtechmx@gmail.com · 378 111 4980</div>
+    <button class="btn-reiniciar" onclick="reiniciar()">Nuevo diagnóstico</button>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+//  DATA
+// ══════════════════════════════════════════════════════
+const BLOQUES = [
+  {
+    id: 1,
+    nombre: 'Arquitectura Empresarial',
+    desc: 'Estructura, organigrama y responsabilidades',
+    color: 'var(--c1)',
+    preguntas: [
+      '¿Tienes un organigrama definido y actualizado que todo el equipo conoce?',
+      '¿Están documentadas las responsabilidades y funciones de cada puesto?',
+      '¿Tu negocio puede operar correctamente sin que estés presente todo el día?',
+      '¿Tu equipo sabe exactamente qué hacer cada día sin tener que preguntarte?',
+      '¿Tienes manuales o procedimientos escritos de los procesos clave del negocio?'
+    ]
+  },
+  {
+    id: 2,
+    nombre: 'Educación Estratégica',
+    desc: 'Visión, planeación y objetivos del negocio',
+    color: 'var(--c2)',
+    preguntas: [
+      '¿Tienes una visión clara de a dónde quieres llegar en los próximos 3 a 5 años?',
+      '¿Tu equipo conoce los objetivos y metas del negocio para este año?',
+      '¿Tienes un plan de trabajo con metas medibles por mes o trimestre?',
+      '¿Inviertes tiempo y recursos en capacitar a tu equipo de forma regular?',
+      '¿Tomas decisiones importantes basadas en datos, no solo en intuición?'
+    ]
+  },
+  {
+    id: 3,
+    nombre: 'Dominio del Negocio',
+    desc: 'Calidad, procesos y diferenciación',
+    color: 'var(--c3)',
+    preguntas: [
+      '¿Tienes estándares de calidad definidos que se cumplen de forma consistente?',
+      '¿Mides regularmente la satisfacción de tus clientes?',
+      '¿Sabes cuál es tu tasa de retención de clientes y por qué algunos no regresan?',
+      '¿Tu producto o servicio tiene una diferenciación clara respecto a la competencia?',
+      '¿Tienes un proceso definido y documentado de atención al cliente?'
+    ]
+  },
+  {
+    id: 4,
+    nombre: 'Contable y Financiero',
+    desc: 'Números, utilidad y flujo de caja',
+    color: 'var(--c4)',
+    preguntas: [
+      '¿Sabes cuánto ganó o perdió tu negocio el mes pasado sin esperar al contador?',
+      '¿Tienes presupuestos de gastos definidos por mes y los cumples?',
+      '¿Conoces el margen de utilidad real de cada producto o servicio que vendes?',
+      '¿Tienes completamente separadas las finanzas del negocio de las personales?',
+      '¿Controlas tu flujo de caja semanalmente y anticipas necesidades de liquidez?'
+    ]
+  },
+  {
+    id: 5,
+    nombre: 'Comercial y Ventas',
+    desc: 'Estrategia, seguimiento y captación',
+    color: 'var(--c5)',
+    preguntas: [
+      '¿Tienes un proceso de ventas definido, paso a paso, que tu equipo sigue?',
+      '¿Das seguimiento sistemático a todos tus prospectos hasta cerrar o descartar?',
+      '¿Sabes exactamente cuánto te cuesta conseguir un cliente nuevo?',
+      '¿Tu equipo de ventas tiene metas claras, medibles y actualizadas?',
+      '¿Tienes canales de captación de clientes activos y puedes medir cuál funciona mejor?'
+    ]
+  }
+];
+
+const ALERTAS = {
+  0: { text: 'Área crítica — requiere atención inmediata', icon: '🔴' },
+  1: { text: 'Área débil — bloque prioritario de intervención', icon: '🟠' },
+  2: { text: 'Área en desarrollo — avance posible con acciones concretas', icon: '🟡' },
+  3: { text: 'Área sólida — mantener y optimizar', icon: '🟢' },
+};
+
+const ESTADOS = [
+  { min: 0,  max: 25, label: 'En riesgo',       badge: '#E85555', bg: 'rgba(232,85,85,.15)' },
+  { min: 26, max: 50, label: 'Por desarrollar',  badge: '#F0B429', bg: 'rgba(240,180,41,.15)' },
+  { min: 51, max: 75, label: 'En crecimiento',   badge: '#00B4D8', bg: 'rgba(0,180,216,.15)' },
+  { min: 76, max: 100, label: 'Empresa sólida',  badge: '#A8CC00', bg: 'rgba(168,204,0,.15)' },
+];
+
+// ══════════════════════════════════════════════════════
+//  RENDER BLOQUES
+// ══════════════════════════════════════════════════════
+const container = document.getElementById('bloques-container');
+
+BLOQUES.forEach(b => {
+  const bClass = `b${b.id}`;
+  const div = document.createElement('div');
+  div.className = `bloque ${bClass}`;
+  div.id = `bloque-${b.id}`;
+
+  let pqHTML = '';
+  b.preguntas.forEach((pq, i) => {
+    const sid = `s-${b.id}-${i}`;
+    const vid = `v-${b.id}-${i}`;
+    pqHTML += `
+      <div class="pregunta">
+        <div class="pq-text">${pq}</div>
+        <div class="slider-row">
+          <input type="range" min="0" max="10" value="5"
+            id="${sid}"
+            style="--blk-color:${b.color};--pct:50%"
+            oninput="onSlider(this,'${vid}',${b.id})">
+          <div class="pq-val" id="${vid}" style="background:${b.color}22;color:${b.color}">5</div>
+        </div>
+        <div class="slider-labels"><span>0 — Nada</span><span>10 — Perfecto</span></div>
+      </div>`;
+  });
+
+  div.innerHTML = `
+    <div class="blq-hdr">
+      <div class="blq-meta">
+        <div class="blq-num">${b.id}</div>
+        <div class="blq-info">
+          <div class="blq-name">${b.nombre}</div>
+          <div class="blq-desc">${b.desc}</div>
+        </div>
+      </div>
+    </div>
+    <div class="blq-score-bar"><div class="blq-score-fill" id="bar-${b.id}" style="width:50%"></div></div>
+    <div class="blq-score-num" id="score-${b.id}">Promedio: 5.0 / 10 — 50%</div>
+    <div class="preguntas">${pqHTML}</div>`;
+  container.appendChild(div);
+});
+
+// ══════════════════════════════════════════════════════
+//  SLIDER HANDLER
+// ══════════════════════════════════════════════════════
+function onSlider(el, vid, blqId) {
+  const val = +el.value;
+  const pct = val * 10;
+  el.style.setProperty('--pct', pct + '%');
+
+  const vEl = document.getElementById(vid);
+  vEl.textContent = val;
+
+  updateBlockScore(blqId);
+}
+
+function updateBlockScore(blqId) {
+  const b = BLOQUES[blqId - 1];
+  let sum = 0;
+  b.preguntas.forEach((_, i) => {
+    sum += +document.getElementById(`s-${blqId}-${i}`).value;
+  });
+  const avg = sum / b.preguntas.length;
+  const pct = Math.round(avg * 10);
+
+  document.getElementById(`bar-${blqId}`).style.width = pct + '%';
+  document.getElementById(`score-${blqId}`).textContent =
+    `Promedio: ${avg.toFixed(1)} / 10 — ${pct}%`;
+}
+
+// ══════════════════════════════════════════════════════
+//  SET TODAY DATE
+// ══════════════════════════════════════════════════════
+(function() {
+  const d = new Date();
+  const iso = d.toISOString().split('T')[0];
+  document.getElementById('f-fecha').value = iso;
+})();
+
+// ══════════════════════════════════════════════════════
+//  CALCULAR
+// ══════════════════════════════════════════════════════
+function calcular() {
+  const empresa  = document.getElementById('f-empresa').value  || 'La empresa';
+  const dueno    = document.getElementById('f-dueno').value    || '';
+  const empleados= document.getElementById('f-empleados').value || '';
+  const giro     = document.getElementById('f-giro').value     || '';
+  const fechaRaw = document.getElementById('f-fecha').value    || '';
+  const fecha    = fechaRaw
+    ? new Date(fechaRaw + 'T00:00:00').toLocaleDateString('es-MX', {day:'numeric',month:'long',year:'numeric'})
+    : new Date().toLocaleDateString('es-MX', {day:'numeric',month:'long',year:'numeric'});
+
+  // Scores por bloque
+  const scores = BLOQUES.map(b => {
+    let sum = 0;
+    b.preguntas.forEach((_, i) => { sum += +document.getElementById(`s-${b.id}-${i}`).value; });
+    const avg = sum / b.preguntas.length;
+    return { blq: b, avg, pct: Math.round(avg * 10) };
+  });
+
+  const globalPct = Math.round(scores.reduce((a, s) => a + s.pct, 0) / scores.length);
+
+  // Estado global
+  const estado = ESTADOS.find(e => globalPct >= e.min && globalPct <= e.max);
+
+  // Render empresa
+  document.getElementById('r-empresa-name').textContent = empresa;
+  let meta = '';
+  if (dueno) meta += dueno;
+  if (giro) meta += (meta ? ' · ' : '') + giro;
+  if (empleados) meta += (meta ? ' · ' : '') + empleados + ' empleados';
+  meta += (meta ? ' · ' : '') + fecha;
+  document.getElementById('r-empresa-meta').textContent = meta;
+
+  // Ring
+  const circum = 2 * Math.PI * 65;
+  document.getElementById('ring-fill').style.strokeDasharray = circum;
+  document.getElementById('ring-fill').style.strokeDashoffset = circum;
+  setTimeout(() => {
+    document.getElementById('ring-fill').style.strokeDashoffset = circum - (circum * globalPct / 100);
+  }, 100);
+
+  // Número y estado
+  let cur = 0;
+  const pctEl = document.getElementById('r-pct-num');
+  const interval = setInterval(() => {
+    cur = Math.min(cur + 2, globalPct);
+    pctEl.textContent = cur;
+    if (cur >= globalPct) clearInterval(interval);
+  }, 20);
+
+  document.getElementById('r-estado-tag').textContent = estado.label;
+  const badge = document.getElementById('r-estado-badge');
+  badge.textContent = estado.label;
+  badge.style.background = estado.bg;
+  badge.style.color = estado.badge;
+  badge.style.border = `1px solid ${estado.badge}44`;
+
+  // Bloques detalle
+  const rbContainer = document.getElementById('r-bloques');
+  rbContainer.innerHTML = '';
+  scores.forEach(s => {
+    const nivel = s.pct >= 76 ? 3 : s.pct >= 51 ? 2 : s.pct >= 26 ? 1 : 0;
+    const alerta = ALERTAS[nivel];
+    const div = document.createElement('div');
+    div.className = `rb rb${s.blq.id}`;
+    div.innerHTML = `
+      <div class="rb-top">
+        <div class="rb-name">${s.blq.nombre}</div>
+        <div class="rb-pct">${s.pct}%</div>
+      </div>
+      <div class="rb-bar"><div class="rb-bar-fill" style="width:${s.pct}%"></div></div>
+      <div class="rb-alerta">${alerta.icon} ${alerta.text}</div>`;
+    rbContainer.appendChild(div);
+  });
+
+  // Prioridades — los 2 bloques más bajos
+  const sorted = [...scores].sort((a, b) => a.pct - b.pct);
+  const priorWrapper = document.getElementById('r-prioridad');
+  priorWrapper.innerHTML = '';
+  sorted.slice(0, 3).forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'rp-bloque';
+    const nivel = s.pct >= 76 ? 3 : s.pct >= 51 ? 2 : s.pct >= 26 ? 1 : 0;
+    const alerta = ALERTAS[nivel];
+    div.innerHTML = `
+      <div class="rp-icon">${alerta.icon}</div>
+      <div class="rp-text"><strong>${s.blq.nombre}</strong> — ${s.pct}% · ${alerta.text.toLowerCase()}</div>`;
+    priorWrapper.appendChild(div);
+  });
+
+  // Mostrar pantalla
+  const screen = document.getElementById('results-screen');
+  screen.classList.add('show');
+  screen.scrollTop = 0;
+}
+
+function cerrarResultados() {
+  document.getElementById('results-screen').classList.remove('show');
+}
+
+function reiniciar() {
+  // Reset sliders
+  BLOQUES.forEach(b => {
+    b.preguntas.forEach((_, i) => {
+      const el = document.getElementById(`s-${b.id}-${i}`);
+      el.value = 5;
+      el.style.setProperty('--pct', '50%');
+      document.getElementById(`v-${b.id}-${i}`).textContent = 5;
+    });
+    updateBlockScore(b.id);
+  });
+  // Reset form
+  ['f-empresa','f-dueno','f-empleados','f-giro'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  cerrarResultados();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
